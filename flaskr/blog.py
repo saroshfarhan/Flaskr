@@ -6,14 +6,14 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from flaskr.auth import login_required
-from . import db
+from flaskr.database import get_db
 
 bp = Blueprint('blog', __name__)
 
 
 @bp.route('/')
 def index():
-    dab = db.get_db()
+    dab = get_db()
     posts = dab.execute(
         'SELECT p.id, title, body, created, author_id, username'
         ' FROM post p JOIN user u ON p.author_id = u.id'
@@ -33,7 +33,7 @@ def create():
         if error is not None:
             flash(error)
         else:
-            dab = db.get_db()
+            dab = get_db()
             dab.execute(
                 'INSERT INTO post (title, body, author_id)'
                 ' VALUES (?, ?, ?)',
@@ -47,7 +47,7 @@ def create():
 
 
 def get_post(id, check_author=True):
-    post = db.get_db().execute(
+    post = get_db().execute(
         'SELECT p.id, title, body, created, author_id, username'
         ' FROM post p JOIN user u ON p.author_id = u.id'
         ' WHERE p.id = ?',
@@ -80,7 +80,7 @@ def update(id):
         if error is not None:
             flash(error)
         else:
-            dab = db.get_db()
+            dab = get_db()
             dab.execute(
                 'UPDATE post SET title = ?, body = ?'
                 ' WHERE id = ?',
@@ -97,7 +97,7 @@ def update(id):
 @login_required
 def delete(id):
     get_post(id)
-    dab = db.get_db()
+    dab = get_db()
     dab.execute('DELETE FROM post WHERE id = ?', (id,))
     dab.commit()
     return redirect(url_for('blog.index'))

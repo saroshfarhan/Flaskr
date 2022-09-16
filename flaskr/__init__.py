@@ -4,7 +4,7 @@ This will contain Application factory
 
 import os
 from flask import Flask
-from . import db, auth, blog
+from . import database, auth, blog
 
 
 def create_app(test_config=None):
@@ -35,7 +35,7 @@ def create_app(test_config=None):
         return 'Hello, World!'
     
     
-    db.init_app(app)
+    database.init_app(app)
     app.register_blueprint(auth.bp)
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
