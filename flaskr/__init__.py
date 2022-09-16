@@ -4,6 +4,7 @@ This will contain Application factory
 
 import os
 from flask import Flask
+from . import db, auth
 
 
 def create_app(test_config=None):
@@ -33,7 +34,7 @@ def create_app(test_config=None):
     def hello():
         return 'Hello, World!'
     
-    from . import db, auth
+    
     db.init_app(app)
     app.register_blueprint(auth.bp)
 
