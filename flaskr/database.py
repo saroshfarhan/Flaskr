@@ -17,7 +17,7 @@ def get_db():
         )
         g.db.row_factory = sqlite3.Row
 
-        return g.db
+    return g.db
 
 '''
 current_app is another special object that points to the Flask application handling the request. 

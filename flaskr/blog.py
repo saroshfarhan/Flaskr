@@ -6,7 +6,7 @@ from flask import (
 from werkzeug.exceptions import abort
 
 from flaskr.auth import login_required
-from flaskr.database import get_db
+from .database import get_db
 
 bp = Blueprint('blog', __name__)
 
@@ -42,7 +42,7 @@ def create():
             dab.commit()
             return redirect(url_for('blog.index'))
         
-        return render_template('blog/create.html')
+    return render_template('blog/create.html')
 
 
 
